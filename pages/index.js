@@ -13,7 +13,6 @@ export default function Home() {
         <meta name='description' content='Netflix app' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <h1>Netflix</h1>
       <NavBar username='tashila' />
       <Banner title='Clifford the red dog' subTitle='a very cute dog' imgUrl='/static/clifford.webp' />
 
