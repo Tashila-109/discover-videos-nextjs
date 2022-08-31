@@ -18,9 +18,6 @@ export default function Home() {
       <NavBar username='tashila' />
       <Banner title='Clifford the red dog' subTitle='a very cute dog' imgUrl='/static/clifford.webp' />
       <SectionCards title='Disney' />
-      <Card imgUrl='/static/clifford.webp' size='large' />
-      <Card size='medium' />
-      <Card imgUrl='/static/clifford.webp' size='small' />
     </div>
   );
 }
