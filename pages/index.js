@@ -17,7 +17,9 @@ export default function Home() {
       </Head>
       <NavBar username='tashila' />
       <Banner title='Clifford the red dog' subTitle='a very cute dog' imgUrl='/static/clifford.webp' />
-      <SectionCards title='Disney' />
+      <div className={styles.sectionWrapper}>
+        <SectionCards title='Disney' />
+      </div>
     </div>
   );
 }
