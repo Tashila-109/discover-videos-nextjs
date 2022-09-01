@@ -7,9 +7,9 @@ import SectionCards from '../components/card/section-cards';
 
 import styles from '../styles/Home.module.css';
 
-import { getVideos } from '../lib/videos';
+import { getPopularVideos, getVideos } from '../lib/videos';
 
-export default function Home({ disneyVideos, travelVideos, productivityVideos }) {
+export default function Home({ disneyVideos, travelVideos, productivityVideos, popularVideos }) {
   return (
     <div className={styles.container}>
       <Head>
@@ -17,13 +17,16 @@ export default function Home({ disneyVideos, travelVideos, productivityVideos })
         <meta name='description' content='Netflix app' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <NavBar username='tashila' />
-      <Banner title='Clifford the red dog' subTitle='a very cute dog' imgUrl='/static/clifford.webp' />
-      <div className={styles.sectionWrapper}>
-        <SectionCards title='Disney' videos={disneyVideos} size='large' />
-        <SectionCards title='Travel' videos={travelVideos} size='small' />
-        <SectionCards title='Productivity' videos={productivityVideos} size='medium' />
-        <SectionCards title='Popular' videos={disneyVideos} size='small' />
+      <div className={styles.main}>
+        <NavBar username='ankita@ank.com' />
+        <Banner title='Clifford the red dog' subTitle='a very cute dog' imgUrl='/static/clifford.webp' />
+
+        <div className={styles.sectionWrapper}>
+          <SectionCards title='Disney' videos={disneyVideos} size='large' />
+          <SectionCards title='Travel' videos={travelVideos} size='small' />
+          <SectionCards title='Productivity' videos={productivityVideos} size='medium' />
+          <SectionCards title='Popular' videos={popularVideos} size='small' />
+        </div>
       </div>
     </div>
   );
@@ -32,11 +35,10 @@ export default function Home({ disneyVideos, travelVideos, productivityVideos })
 export async function getServerSideProps(context) {
   const disneyVideos = await getVideos('disney trailer');
   const productivityVideos = await getVideos('Productivity');
-
   const travelVideos = await getVideos('indie music');
-  // const popularVideos = await getVideos();
+  const popularVideos = await getPopularVideos();
 
   return {
-    props: { disneyVideos, travelVideos, productivityVideos }, // will be passed to the page component as props
+    props: { disneyVideos, travelVideos, productivityVideos, popularVideos }, // will be passed to the page component as props
   };
 }
