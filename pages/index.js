@@ -9,8 +9,7 @@ import styles from '../styles/Home.module.css';
 
 import { getVideos } from '../lib/videos';
 
-export default function Home() {
-  const disneyVideos = getVideos();
+export default function Home({ disneyVideos, travelVideos, productivityVideos }) {
   return (
     <div className={styles.container}>
       <Head>
@@ -22,8 +21,22 @@ export default function Home() {
       <Banner title='Clifford the red dog' subTitle='a very cute dog' imgUrl='/static/clifford.webp' />
       <div className={styles.sectionWrapper}>
         <SectionCards title='Disney' videos={disneyVideos} size='large' />
-        <SectionCards title='Disney' videos={disneyVideos} size='medium' />
+        <SectionCards title='Travel' videos={travelVideos} size='small' />
+        <SectionCards title='Productivity' videos={productivityVideos} size='medium' />
+        <SectionCards title='Popular' videos={disneyVideos} size='small' />
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  const disneyVideos = await getVideos('disney trailer');
+  const productivityVideos = await getVideos('Productivity');
+
+  const travelVideos = await getVideos('indie music');
+  // const popularVideos = await getVideos();
+
+  return {
+    props: { disneyVideos, travelVideos, productivityVideos }, // will be passed to the page component as props
+  };
 }
