@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import Modal from 'react-modal';
 import clsx from 'classnames';
 
+import NavBar from '../../components/nav/navbar';
 import { getYoutubeVideoById } from '../../lib/videos';
 
 import styles from '../../styles/Video.module.css';
@@ -16,6 +17,7 @@ const Video = ({ video }) => {
 
   return (
     <div className={styles.container}>
+      <NavBar />
       <Modal isOpen={true} contentLabel='Watch the video' onRequestClose={() => router.back()} overlayClassName={styles.overlay}>
         <iframe
           id='ytplayer'
@@ -50,7 +52,7 @@ const Video = ({ video }) => {
   );
 };
 
-export async function getStaticProps() {
+export async function getStaticProps(context) {
   //data to fetch from API
   // const video = {
   //   title: 'Hi cute dog',
@@ -60,7 +62,7 @@ export async function getStaticProps() {
   //   viewCount: 10000,
   // };
 
-  const videoId = '4zH5iYM4wJo';
+  const videoId = context.params.videoId;
 
   const videoArray = await getYoutubeVideoById(videoId);
 
