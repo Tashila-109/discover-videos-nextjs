@@ -2,6 +2,8 @@ import { useRouter } from 'next/router';
 import Modal from 'react-modal';
 import clsx from 'classnames';
 
+import { getYoutubeVideoById } from '../../lib/videos';
+
 import styles from '../../styles/Video.module.css';
 
 Modal.setAppElement('#__next');
@@ -10,7 +12,7 @@ const Video = ({ video }) => {
   const router = useRouter();
   console.log({ router });
 
-  const { title, publishTime, description, channelTitle, viewCount } = video;
+  const { title, publishTime, description, channelTitle, statistics: { viewCount } = { viewCount: 0 } } = video;
 
   return (
     <div className={styles.container}>
@@ -50,17 +52,21 @@ const Video = ({ video }) => {
 
 export async function getStaticProps() {
   //data to fetch from API
-  const video = {
-    title: 'Hi cute dog',
-    publishTime: '1990-01-01',
-    description: 'A big red dog that is super cute, can he get any bigger? A big red dog that is super cute, can he get any bigger?',
-    channelTitle: 'Paramount Pictures',
-    viewCount: 10000,
-  };
+  // const video = {
+  //   title: 'Hi cute dog',
+  //   publishTime: '1990-01-01',
+  //   description: 'A big red dog that is super cute, can he get any bigger? A big red dog that is super cute, can he get any bigger?',
+  //   channelTitle: 'Paramount Pictures',
+  //   viewCount: 10000,
+  // };
+
+  const videoId = '4zH5iYM4wJo';
+
+  const videoArray = await getYoutubeVideoById(videoId);
 
   return {
     props: {
-      video,
+      video: videoArray.length > 0 ? videoArray[0] : {},
     },
     revalidate: 10, // In seconds
   };
