@@ -42,7 +42,7 @@ const Login = () => {
 
     if (email) {
       // route to dashboard
-      if (email === 'kulkarni.ankita09@gmail.com') {
+      if (email === 'tashila97@hotmail.com') {
         //  log in a user by their email
         try {
           const didToken = await magic.auth.loginWithMagicLink({

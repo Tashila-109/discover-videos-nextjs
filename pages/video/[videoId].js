@@ -18,7 +18,13 @@ const Video = ({ video }) => {
   return (
     <div className={styles.container}>
       <NavBar />
-      <Modal isOpen={true} contentLabel='Watch the video' onRequestClose={() => router.back()} overlayClassName={styles.overlay}>
+      <Modal
+        isOpen={true}
+        contentLabel='Watch the video'
+        onRequestClose={() => router.back()}
+        className={styles.modal}
+        overlayClassName={styles.overlay}
+      >
         <iframe
           id='ytplayer'
           className={styles.videoPlayer}
