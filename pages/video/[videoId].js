@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useRouter } from 'next/router';
 import Modal from 'react-modal';
 import clsx from 'classnames';
@@ -13,9 +14,23 @@ Modal.setAppElement('#__next');
 
 const Video = ({ video }) => {
   const router = useRouter();
-  console.log({ router });
+
+  const [toggleLike, setToggleLike] = useState(false);
+  const [toggleDisLike, setToggleDisLike] = useState(false);
 
   const { title, publishTime, description, channelTitle, statistics: { viewCount } = { viewCount: 0 } } = video;
+
+  const handleToggleDislike = async () => {
+    console.log('handleToggleDislike');
+    setToggleDisLike(!toggleDisLike);
+    setToggleLike(toggleDisLike);
+  };
+
+  const handleToggleLike = async () => {
+    console.log('handleToggleLike');
+    setToggleLike(!toggleLike);
+    setToggleDisLike(toggleLike);
+  };
 
   return (
     <div className={styles.container}>
@@ -39,15 +54,15 @@ const Video = ({ video }) => {
 
         <div className={styles.likeDislikeBtnWrapper}>
           <div className={styles.likeBtnWrapper}>
-            <button>
+            <button onClick={handleToggleLike}>
               <div className={styles.btnWrapper}>
-                <Like />
+                <Like selected={toggleLike} />
               </div>
             </button>
           </div>
-          <button>
+          <button onClick={handleToggleDislike}>
             <div className={styles.btnWrapper}>
-              <DisLike />
+              <DisLike selected={toggleDisLike} />
             </div>
           </button>
         </div>
