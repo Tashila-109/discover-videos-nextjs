@@ -21,13 +21,19 @@ export default async function stats(req, resp) {
           const response = await updateStats(token, {
             watched: true,
             userId,
-            videoId: 'gxc6y2ZVfCU',
+            videoId,
             favourited: 0,
           });
           resp.send({ msg: 'it works', response });
         } else {
           // add it
-          resp.send({ msg: 'it works', decodedToken, doesStatsExist });
+          const response = await insertStats(token, {
+            watched: false,
+            userId,
+            videoId,
+            favourited: 0,
+          });
+          resp.send({ msg: 'it works', response });
         }
         resp.send({ msg: 'it works', decodedToken, doesStatsExist });
       }
