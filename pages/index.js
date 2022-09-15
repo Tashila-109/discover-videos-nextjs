@@ -6,9 +6,9 @@ import SectionCards from '../components/card/section-cards';
 
 import styles from '../styles/Home.module.css';
 
-import { getPopularVideos, getVideos } from '../lib/videos';
+import { getPopularVideos, getVideos, getWatchItAgainVideos } from '../lib/videos';
 
-export default function Home({ disneyVideos, travelVideos, productivityVideos, popularVideos }) {
+export default function Home({ disneyVideos, travelVideos, productivityVideos, popularVideos, watchItAgainVideos }) {
   return (
     <div className={styles.container}>
       <Head>
@@ -32,12 +32,24 @@ export default function Home({ disneyVideos, travelVideos, productivityVideos, p
 }
 
 export async function getServerSideProps(context) {
+  const userId = '';
+  const token = '';
+
+  const watchItAgainVideos = await getWatchItAgainVideos(userId, token);
+
+  console.log({ watchItAgainVideos });
   const disneyVideos = await getVideos('disney trailer');
   const productivityVideos = await getVideos('Productivity');
   const travelVideos = await getVideos('indie music');
   const popularVideos = await getPopularVideos();
 
   return {
-    props: { disneyVideos, travelVideos, productivityVideos, popularVideos }, // will be passed to the page component as props
+    props: {
+      disneyVideos,
+      travelVideos,
+      productivityVideos,
+      popularVideos,
+      watchItAgainVideos,
+    }, // will be passed to the page component as props
   };
 }
