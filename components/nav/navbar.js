@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -10,6 +10,7 @@ import styles from './navbar.module.css';
 const NavBar = props => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [username, setUsername] = useState('');
+  const [didToken, setDidToken] = useState('');
   const router = useRouter();
 
   useEffect(() => {
@@ -47,9 +48,15 @@ const NavBar = props => {
     e.preventDefault();
 
     try {
-      await magic.user.logout();
-      console.log(await magic.user.isLoggedIn());
-      router.push('/login');
+      const response = await fetch('/api/logout', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${didToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const res = await response.json();
     } catch (error) {
       console.error('Error logging out', error);
       router.push('/login');
@@ -59,11 +66,13 @@ const NavBar = props => {
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
-        <a className={styles.logoLink}>
-          <div className={styles.logoWrapper}>
-            <Image src='/static/netflix.svg' alt='Netflix logo' width='128px' height='34px' />
-          </div>
-        </a>
+        <Link className={styles.logoLink} href='/'>
+          <a>
+            <div className={styles.logoWrapper}>
+              <Image src='/static/netflix.svg' alt='Netflix logo' width='128px' height='34px' />
+            </div>
+          </a>
+        </Link>
         <ul className={styles.navItems}>
           <li className={styles.navItem} onClick={handleOnClickHome}>
             Home
@@ -76,7 +85,7 @@ const NavBar = props => {
           <div>
             <button className={styles.usernameBtn} onClick={handleShowDropdown}>
               <p className={styles.username}>{username}</p>
-              <Image src='/static/expand_more.svg' alt='Expand more' width='24px' height='24px' />
+              <Image src={'/static/expand_more.svg'} alt='Expand dropdown' width='24px' height='24px' />
             </button>
             {showDropdown && (
               <div className={styles.navDropdown}>
