@@ -7,6 +7,7 @@ import SectionCards from '../components/card/section-cards';
 import styles from '../styles/Home.module.css';
 
 import { getPopularVideos, getVideos, getWatchItAgainVideos } from '../lib/videos';
+import { verifyToken } from '../lib/utils';
 
 export default function Home({ disneyVideos, travelVideos, productivityVideos, popularVideos, watchItAgainVideos }) {
   return (
@@ -33,8 +34,19 @@ export default function Home({ disneyVideos, travelVideos, productivityVideos, p
 }
 
 export async function getServerSideProps(context) {
-  const userId = '';
-  const token = '';
+  const token = context.req ? context.req?.cookies.token : null;
+  console.log({ token });
+  const userId = await verifyToken(token);
+
+  if (!userId) {
+    return {
+      props: {},
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
 
   const watchItAgainVideos = await getWatchItAgainVideos(userId, token);
 
